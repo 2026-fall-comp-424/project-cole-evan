@@ -1,0 +1,111 @@
+
+CLASS Weapon:
+
+    FUNCTION initialize(name, category, damage, fire_rate):
+        Store weapon name
+        Store weapon category
+        Store weapon damage
+        Store weapon fire rate
+
+    FUNCTION calculate_btk(health):
+        IF damage <= 0:
+            RETURN invalid result
+
+        btk = ROUND UP(health / damage)
+        RETURN btk
+
+    FUNCTION calculate_ttk(health):
+        btk = calculate_btk(health)
+
+        IF fire_rate <= 0:
+            RETURN invalid result
+
+        ttk = ((btk - 1) * 60000) / fire_rate
+        RETURN ttk
+
+
+CLASS WeaponAnalyzer:
+
+    FUNCTION initialize():
+        Create an empty list of weapons
+
+    FUNCTION load_weapons(filename):
+        Open CSV file
+
+        FOR each row in file:
+            Read weapon name
+            Read weapon category
+            Read base damage
+            Read rate of fire
+
+            Create a Weapon object
+            Add Weapon object to weapons list
+
+        Close file
+
+    FUNCTION find_weapon(name):
+        FOR each weapon in weapons list:
+            IF weapon name matches requested name:
+                RETURN weapon
+
+        RETURN not found
+
+    FUNCTION compare_weapons(name1, name2):
+        Find both weapons
+
+        IF either weapon does not exist:
+            Display error message
+            RETURN
+
+        Calculate BTK for both weapons
+        Calculate TTK for both weapons
+
+        Display both weapons' statistics
+
+        IF weapon1 TTK < weapon2 TTK:
+            Display weapon1 as faster
+
+        ELSE IF weapon2 TTK < weapon1 TTK:
+            Display weapon2 as faster
+
+        ELSE:
+            Display both weapons as equal
+
+    FUNCTION display_all_weapons():
+        FOR each weapon in weapons list:
+            Display weapon name and category
+
+
+FUNCTION main():
+
+    Create WeaponAnalyzer object
+    Load weapons from CSV file
+
+    REPEAT:
+        Display menu:
+            1. List all weapons
+            2. View weapon statistics
+            3. Compare two weapons
+            4. Exit
+
+        Get user choice
+
+        IF choice == 1:
+            Display all weapons
+
+        ELSE IF choice == 2:
+            Ask user for weapon name
+            Find weapon
+            Calculate and display BTK and TTK
+
+        ELSE IF choice == 3:
+            Ask user for two weapon names
+            Compare weapons
+
+        ELSE IF choice == 4:
+            Exit program
+
+        ELSE:
+            Display invalid choice message
+
+    UNTIL user chooses exit
